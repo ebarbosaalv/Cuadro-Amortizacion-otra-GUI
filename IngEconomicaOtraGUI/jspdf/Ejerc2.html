@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Período De Gracia</title>
+        <meta charset="UTF-8">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/ajax.js"></script>
+  <script type="text/javascript" src="js/dinamic.js"></script>
+  <script type="text/javascript" src="js/jspdf.min.js"></script>
+  <script type="text/javascript" src="js/PDFgenerator.js"></script>
+  <script type="text/javascript" src="datos.js"></script>
+  <script type="text/javascript" src ="mostrarOcultar.js"></script>
+  <script src="jspdf/dist/jspdf.min.js"></script>
+  <script src="jspdf.plugin.autotable.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="estiloCredito.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src ="select.js"></script>
+        <script src ="table.js"></script>
+
+        <style>
+table, td {
+    border: 1px solid black;
+}
+</style>
+
+
+        <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Inegeneria Economica Proyecto</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Período De Gracia</a></li>
+      <li><a href="Ejerc1.html">Cuota Fija</a></li>
+  
+    </ul>
+  </div>
+</nav>
+
+<style>  /* cambiar tipo de letra */
+
+
+nav.navbar ul.nav li {
+    font-family: "Gabriola", Helvetica, Arial, sans-serif;
+}
+ 
+/* cambiar el color de fondo a la barra */
+nav.navbar {
+    background-color: #3B4962;
+
+
+
+}
+
+
+
+
+.navbar {
+font-size: 26px;
+/*cambiar tamaño letra*/
+}
+
+.navbar-brand {
+ font-family: "Gabriola", Helvetica, Arial, sans-serif;
+  font-size: 26px;
+}
+
+
+
+
+   font-family: "Gabriola"
+
+
+</style>
+        <font><strong>Monto:</strong> </font><input type="number" name="monto" id="capital" required="" class="redondeado"  >
+  <li onclick="pestana('2')"><a data-toggle="tab" href="#menu1"> PERIODO DE GRACIA MOSTRAR</a></li>
+   
+ 
+
+<div id="menu1" class="tab-pane fade">
+        <h3> <center> <strong> CRÉDITO CON PERIODO DE GRACIA PROPIAMENTE DICHO </strong> </center> </h3>
+        <br>
+
+        <form action="" name="Pgracia" id="2" method="post" >
+        <br>
+
+        <font><strong>Seleccionar plazo</strong> </font>  <select name="plazo" id="plazo1" class="redondeado">
+            
+            <option value="60" selected>60 meses</option> 
+            <option value="72">72 meses</option>
+            <option value="84">84 meses</option>
+            <option value="96">96 meses</option>
+            <option value="108">108 meses</option>
+            <option value="120">120 meses</option>
+
+        </select>
+        <br><br>
+        <font><strong>Periodo de gracia</strong> </font> <select name="gracia" id="gracia" class="redondeado">
+            
+          <option value="24" selected> 24 meses</option>
+          <option value="36" > 36 meses</option>
+
+        </select>
+        <br><br>
+
+        <font><strong>Amortización</strong> </font>  <select name="amortizacion1" class="redondeado" id="amortizacion1">
+            
+          <option value="mensual1"  selected>Mensual</option> 
+          <option value="bimestral1" >Trimestral</option>
+            
+        </select>
+        <br><br>
+
+      <h4>Tasa de interes:</h4>
+      <font><strong>Efectiva anual (EA)</strong> </font>
+      <input type="text" name="tasa_EA_cf1" id="tasa_EA_cf1" class="redondeado"  onchange="calcularTasaMuerta('EA1')" />
+      <br><br>
+      <font><strong>Nominal Anual (NA)</strong> </font>
+      <input type="text" name="tasa_NA_cf1" id="tasa_NA_cf1" class="redondeado"  onchange="calcularTasaMuerta('NA1')" />
+      <br><br>
+      <font><strong>Interés periodico (iP)</strong> </font>
+      <input type="text" name="tasa_Ip_cf1" id="tasa_Ip_cf1" class="redondeado"  onchange="calcularTasaMuerta('Ip1')" />
+      <br><br>
+            
+      </form>
+
+      
+    </div>
+    <br><br>
+    </div>
+    
+<!-- ************************************************Inicio MUESTRA DE LA TABLA CON LAS CUOTAS******** -->
+   
+<div id="boton" class="form-pg-button" onclick="mostrar()">
+
+<center> <strong>Amortizacion</strong></center>
+
+</div>
+<div id="mostrarTabla" class="tab-content" >
+  Tabla de cuotas
+
+    <table class="table table-striped" id="tablaFija">
+    <thead>
+      <tr>
+        <th>Cuota</th>
+     <th>Fecha</th>
+        <th>Saldo </th>
+
+        <th>Amortización Capital</th>
+        <th>Amortización Intereses</th>
+        <th>Cuota fija</th>
+        <th>Flujo caja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      
+    </tbody>
+  </table>
+
+     <a href="javascript:print('./prueba.pdf')" class="btn btn-danger" role="button">Generar PDF</a>  

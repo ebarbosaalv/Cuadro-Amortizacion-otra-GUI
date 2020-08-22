@@ -1,0 +1,66 @@
+/*input {
+     width: 250px;
+     padding: 5px;
+   }*/
+   .redondeado {
+     border-radius: 5px;
+   }
+   .confondo {
+     background-color: #def;
+   }
+   .sinborde {
+     border: 0;
+   }
+   .sinbordefondo {
+     background-color: #eee;
+     border: 0;
+   }
+   .outlinenone {
+     outline: none;
+     background-color: #dfe;
+     border: 0;
+   }
+   .redondeadonorelieve {
+     border-radius: 5px;
+     border: 1px solid #39c;
+   }
+   
+   .datos_formulario .form .form-label, .form-cf-datos .form-label, .form-pg-datos .form-label {
+  display: block;
+  color: #ff851b;
+  font-size: 16px;
+  font-family: sans-serif;
+  position: relative;
+}
+
+#boton{
+
+  padding: 10px;
+  background: #534EE8;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 0px 1px #000;
+  display: inline-block;
+}
+
+#boton:hover{
+
+  opacity: .8;
+}
+
+.form-pg-button {
+  width: 100%;
+  font-family: sans-serif;
+  outline: none;
+  background: #ff851b;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 15px 0;
+  cursor: pointer;
+  transition: all .5s ease;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+}

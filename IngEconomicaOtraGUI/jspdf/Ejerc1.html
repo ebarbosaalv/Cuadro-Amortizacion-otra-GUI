@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+
+<head>
+  <meta charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/ajax.js"></script>
+  <script type="text/javascript" src="js/dinamic.js"></script>
+  <script type="text/javascript" src="js/jspdf.min.js"></script>
+  <script type="text/javascript" src="js/PDFgenerator.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Couta Fija</title>
+
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Inegeneria Economica Proyecto</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Cuota Fija</a></li>
+      <li><a href="Ejerc2.html">Período De Gracia</a></li>
+  
+    </ul>
+  </div>
+</nav>
+
+<style>  /* cambiar tipo de letra */
+
+
+nav.navbar ul.nav li {
+    font-family: "Gabriola", Helvetica, Arial, sans-serif;
+}
+ 
+/* cambiar el color de fondo a la barra */
+nav.navbar {
+    background-color: #3B4962;
+
+
+
+}
+
+
+
+
+.navbar {
+font-size: 26px;
+
+}
+
+.navbar-brand {
+ font-family: "Gabriola", Helvetica, Arial, sans-serif;
+	font-size: 26px;
+}
+
+
+
+
+	 font-family: "Gabriola"
+
+
+</style>
+
+    <div face="Gigi" align="center"><h1>Bienvenido Banco Uniminuto - Cuota Fija</h1><br></div>
+
+
+</head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src ="select.js"></script>
+        <script src ="table.js"></script>
+        <style>
+table, td {
+    border: 1px solid black;
+}
+</style>
+<br>
+        <img src="logo-uniminuto.jpeg" alt="Uniminuto" width="300" height="100" style="left:0px">
+        <br>
+        <script>
+            
+    function interesnom(x){      
+    }   
+
+
+
+
+
+
+   function myFunction() {
+    //var x = document.getElementById("nombre").value;
+    var conca="Nombre:"+" "+document.getElementById("nombre").value+"<br/>"+"Cedula:"+document.getElementById("identificacion").value;
+   monto=document.getElementById("monto").value;
+        plazo=document.getElementById("plazo").value;
+       seguro=monto*(6/1000);
+    //document.getElementById("resultado1").innerHTML = conca;  
+     select=document.getElementById("amortizado").value;
+     if(select==="Mensual"){
+                periodos=12;
+                dias=30;
+                n=parseInt(plazo);
+                 numeromeses=1;
+                
+            }else if(select==="Bimestral"){
+                 periodos=6;
+                dias=60;
+                n=parseInt(plazo);
+                numeromeses=2;
+                
+           
+                
+            }
+    
+    
+    if(document.getElementById("efectivoanual").value!==""){
+        
+            x=document.getElementById("efectivoanual").value;
+           
+           
+            
+            
+         var per=((Math.pow((1+parseFloat(x/100)),(dias/360)))-1);
+         var nm=per*periodos;
+            
+           document.getElementById("periodico").value=per*100;
+           document.getElementById("nominalanual").value=nm*100;
+            
+        
+    }
+        else if(document.getElementById("nominalanual").value!==""){
+          
+          x=document.getElementById("nominalanual").value;
+          
+          per=(x/periodos)/100;
+          ea=(Math.pow((1+per),(360/dias)))-1;
+          document.getElementById("periodico").value=per*100;
+          document.getElementById("efectivoanual").value=ea*100;
+            
+            
+        } else if(document.getElementById("periodico").value!=""){
+            
+             x=document.getElementById("periodico").value;
+             
+             per=x/100;
+             na=(x*periodos)/100;
+             ea=(Math.pow((1+per),(360/dias)))-1;
+             document.getElementById("nominalanual").value=na*100;
+             
+            document.getElementById("efectivoanual").value=ea*100;
+             
+            
+        }
+       
+
+
+
+
+ 
+
+///////////
+
+
+
+
+
+
+
+
+
+        
+   var mes=6;
+var ano=2019;    
+  var datos =[{  
+  periodo: 0,
+  fecha: "03/"+mes+"/"+ano,
+  saldo: monto,
+  amortizacion: 0,
+  interes: 0,
+  cuota:0,
+  seguro: seguro,
+  flujo:monto
+}];
+var cuotafija=parseInt(monto)*(((Math.pow((1+per),(n)))*per)/((Math.pow((1+per),(n)))-1));
+console.log(per);
+
+//Función de fecha
+
+
+
+var i=0;
+while(i<n){
+ //función de fecha 
+
+ mes=mes+numeromeses;
+if(mes>12){
+    mes=mes-12;
+    ano=ano+1;
+}
+datos.push({
+   periodo: parseInt(i+1),
+  fecha: "03/"+mes+"/"+ano,
+  saldo : parseFloat(datos[i].saldo)-(cuotafija-(parseFloat(datos[i].saldo)*per)),
+  amortizacion: cuotafija-(parseFloat(datos[i].saldo)*per),
+  interes: parseFloat(datos[i].saldo)*per,
+  cuota:cuotafija,
+  seguro: (parseFloat(datos[i].saldo)-(cuotafija-(parseFloat(datos[i].saldo)*per)))*(6/1000),
+  flujo:(parseFloat(datos[i].saldo)*(6/1000))+cuotafija
+});
+i++;
+}
+    
+    
+function FullName(item,index) {
+    var fullname = [item.periodo,item.fecha,item.saldo,item.amortizacion,item.interes,item.cuota,item.seguro,item.flujo].join(" ")+"<br/>";
+    return fullname;
+}
+
+     
+  // document.getElementById("resultado1").innerHTML = datos.map(FullName);
+   
+     for(x=0;x<parseInt(n)+1;x++){
+ var table = document.getElementById("myTable");
+var row = table.insertRow();
+
+var cell0 = row.insertCell(0);
+var cell1 = row.insertCell(1);
+var cell2 = row.insertCell(2);
+var cell3 = row.insertCell(3);
+var cell4 = row.insertCell(4);
+var cell5 = row.insertCell(5);
+
+var cell6 = row.insertCell(6);
+
+var auxperiodo=datos[x].amortizacion;
+var auxsaldo=parseFloat(datos[x].saldo);
+var auxinteres=parseFloat(datos[x].interes);
+
+var auxcuota=parseFloat(datos[x].cuota);
+var auxflujo=parseFloat(datos[x].flujo);
+
+cell0.innerHTML = datos[x].periodo;
+cell1.innerHTML = datos[x].fecha;
+cell2.innerHTML = auxsaldo.toFixed(2);
+
+cell3.innerHTML = auxperiodo.toFixed(2);
+cell4.innerHTML = auxinteres.toFixed(2);
+cell5.innerHTML = auxcuota.toFixed(2);
+
+cell6.innerHTML = auxflujo.toFixed(2);
+  
+   }
+    
+    }
+
+function refresh()
+        {
+                location.reload(true);
+        }
+
+
+</script>
+        
+  <script>function format(input)
+{
+var num = input.value.replace(/\./g,'');
+if(!isNaN(num)){
+num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+num = num.split('').reverse().join('').replace(/^[\.]/,'');
+input.value = num;
+}
+ 
+else{ alert('Solo se permiten numeros');
+input.value = input.value.replace(/[^\d\.]*/g,'');
+}
+}</script>
+
+<br>
+<br>
+<br>
+    <body onload="select2()">   
+      
+            
+<div class="align-items-center input-group col-xs-4" >
+      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+      <input    id="nombre" type="text" class="form-control" name="nombre" placeholder="Nombre">
+    </div>
+
+<br>
+
+<div class="input-group">
+      <span class="input-group-addon">Identificacion</span>
+
+ <input type="text" class="form-control" id="identificacion"  placeholder="Agregar identificacion" style="width:250px;height:30px" >
+ </div>
+<br>
+
+
+
+<div class="input-group">
+        <span class="input-group-addon">monto-prestamo    </span>
+<input type="text" class="form-control" id="monto"  placeholder="Agregar monto de Préstamo" style="width:250px;height:30px" >
+</div>
+Plazo : <br>
+
+
+<!-- Esto es un comentario -- onkeyup="format(this)" onchange="format(this)>
+
+<!-- Esto es otro comentario -->
+/
+
+<div  id="plazodiv"></div>
+
+
+
+
+
+
+
+
+
+
+<br>
+<h3>Periodo De Amotizacion</h3>
+ <select id="amortizado">
+    <option>Mensual</option>
+    <option>Bimestral</option>
+
+  </select>  
+
+
+
+<h3>Tasa De Intereses</h3>
+Efectivo Anual<br>
+
+<input type ="text" id="efectivoanual" style="width:31px;height:20px"> %<br>
+Nominal Anual<br>
+<input type ="text" id="nominalanual" style="width:31px;height:20px"> %<br>
+Periódico<br>
+<input type ="text" id="periodico" style="width:31px;height:20px"> %<br>
+<br>
+<br>
+
+       
+ <button type="button" class="btn btn-danger"  onclick="myFunction()">Aceptar</button>
+<button type="button" class="btn btn-danger"  onclick="refresh()">Limpiar</button>
+
+ <br> 
+      <br>
+     <br>
+     <br>
+ <br>
+  <br>
+   <br>
+    <br>
+     <br>
+      <br>
+     <br>
+
+
+
+
+
+
+
+
+ <h1 class="text-capitalize" align="center">Cuadro Amortizacion.</h1>
+       
+
+
+       <div align="center" id="resultado2">
+           
+            <table id="myTable" onkeyup="format(this)" onchange="format(this)">
+     <tr>
+     <td><strong> Couta </strong></td>
+    <td><strong>Fecha</strong></td>
+    <td><strong>Saldo</strong></td>
+    <td><strong>Amortización</strong></td>
+    <td><strong>Interes</strong></td>
+    <td><strong>Cuota Fija</strong></td>
+ 
+    <td><strong>Flujo</strong></td>
+     </tr>
+         </table> 
+<br>
+          
+           <a href="javascript:print('./prueba.pdf')" class="btn btn-danger" role="button">Generar PDF</a>
+       </div>
+             
+        
+    </body>
+</html>
